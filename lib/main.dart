@@ -85,7 +85,7 @@ class Editor extends StatelessWidget {
           labelText: rotulo,
           hintText: dica,
         ),
-        keyboardType: TextInputType.number,
+        keyboardType: TextInputType.numberWithOptions(decimal: true),
       ),
     );
   }
@@ -118,11 +118,13 @@ class ListaTransferencias extends StatelessWidget {
             debugPrint('chegou no then do future');
             debugPrint('$transferenciaRecebida');
             _transferencias.add(transferenciaRecebida);
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Transferência realizada com sucesso!'),
-              ),
-            );
+            if (transferenciaRecebida != null) {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Transferência realizada com sucesso!'),
+                ),
+              );
+            }
           });
         },
       ),
