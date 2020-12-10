@@ -91,19 +91,30 @@ class Editor extends StatelessWidget {
   }
 }
 
-class ListaTransferencias extends StatelessWidget {
+class ListaTransferencias extends StatefulWidget {
   final List<Transferencia> _transferencias = List();
 
   @override
+  State<StatefulWidget> createState() {
+    return ListaTransferenciasState();
+  }
+}
+
+class ListaTransferenciasState extends State<ListaTransferencias> {
+  @override
   Widget build(BuildContext context) {
+    // Não é mais possível deixar transferências prévias pois, a cada
+    // renderização, ele vai adicioná-las também
+    // widget._transferencias.add(Transferencia(100.0, 1000));
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Transferências'),
       ),
       body: ListView.builder(
-        itemCount: _transferencias.length,
+        itemCount: widget._transferencias.length,
         itemBuilder: (context, index) {
-          final transferencia = _transferencias[index];
+          final transferencia = widget._transferencias[index];
           return ItemTransferencia(transferencia);
         },
       ),
@@ -117,8 +128,10 @@ class ListaTransferencias extends StatelessWidget {
           future.then((transferenciaRecebida) {
             debugPrint('chegou no then do future');
             debugPrint('$transferenciaRecebida');
-            _transferencias.add(transferenciaRecebida);
             if (transferenciaRecebida != null) {
+              setState(() {
+                widget._transferencias.add(transferenciaRecebida);
+              });
               Scaffold.of(context).showSnackBar(
                 SnackBar(
                   content: Text('Transferência realizada com sucesso!'),
