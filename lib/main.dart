@@ -6,9 +6,17 @@ class ByteBankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: ListaTransferencias(),
+      theme: ThemeData(
+        primaryColor: Colors.green[900],
+        accentColor: Colors.greenAccent[700],
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.greenAccent[700],
+          textTheme: ButtonTextTheme.primary,
+          minWidth: 300.0,
+          height: 48.0,
+        ),
       ),
+      home: ListaTransferencias(),
     );
   }
 }
@@ -45,9 +53,12 @@ class FormularioTransferenciaState extends State<FormularioTransferencia> {
               dica: '0.00',
               icone: Icons.monetization_on,
             ),
-            RaisedButton(
-              onPressed: () => _criaTransferencia(context),
-              child: Text('Confirmar'),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 0.0),
+              child: RaisedButton(
+                onPressed: () => _criaTransferencia(context),
+                child: Text('Confirmar'),
+              ),
             ),
           ],
         ),
