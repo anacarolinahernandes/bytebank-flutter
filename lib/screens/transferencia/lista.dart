@@ -32,15 +32,17 @@ class ListaTransferenciasState extends State<ListaTransferencias> {
           return ItemTransferencia(transferencia);
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (BuildContext context) {
-            return FormularioTransferencia();
-          })).then((transferenciaRecebida) =>
-              _atualiza(transferenciaRecebida, context));
-        },
+      floatingActionButton: Builder(
+        builder: (context) => FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (BuildContext context) {
+              return FormularioTransferencia();
+            })).then((transferenciaRecebida) =>
+                _atualiza(transferenciaRecebida, context));
+          },
+        ),
       ),
     );
   }
@@ -50,11 +52,11 @@ class ListaTransferenciasState extends State<ListaTransferencias> {
       setState(() {
         widget._transferencias.add(transferenciaRecebida);
       });
-      // Scaffold.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: Text('Transferência realizada com sucesso!'),
-      //   ),
-      // );
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Transferência realizada com sucesso!'),
+        ),
+      );
     }
   }
 }
