@@ -13,7 +13,14 @@ class ByteBankApp extends StatelessWidget {
   }
 }
 
-class FormularioTransferencia extends StatelessWidget {
+class FormularioTransferencia extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return FormularioTransferenciaState();
+  }
+}
+
+class FormularioTransferenciaState extends State<FormularioTransferencia> {
   final TextEditingController _controladorCampoConta = TextEditingController();
   final TextEditingController _controladorCampoValor = TextEditingController();
 
@@ -23,25 +30,27 @@ class FormularioTransferencia extends StatelessWidget {
       appBar: AppBar(
         title: Text('Criando transferência'),
       ),
-      body: Column(
-        children: <Widget>[
-          Editor(
-            controlador: _controladorCampoConta,
-            rotulo: 'Número da conta',
-            dica: '000',
-            icone: Icons.person,
-          ),
-          Editor(
-            controlador: _controladorCampoValor,
-            rotulo: 'Valor',
-            dica: '0.00',
-            icone: Icons.monetization_on,
-          ),
-          RaisedButton(
-            onPressed: () => _criaTransferencia(context),
-            child: Text('Confirmar'),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Editor(
+              controlador: _controladorCampoConta,
+              rotulo: 'Número da conta',
+              dica: '000',
+              icone: Icons.person,
+            ),
+            Editor(
+              controlador: _controladorCampoValor,
+              rotulo: 'Valor',
+              dica: '0.00',
+              icone: Icons.monetization_on,
+            ),
+            RaisedButton(
+              onPressed: () => _criaTransferencia(context),
+              child: Text('Confirmar'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -126,18 +135,20 @@ class ListaTransferenciasState extends State<ListaTransferencias> {
             return FormularioTransferencia();
           }));
           future.then((transferenciaRecebida) {
-            debugPrint('chegou no then do future');
-            debugPrint('$transferenciaRecebida');
-            if (transferenciaRecebida != null) {
-              setState(() {
-                widget._transferencias.add(transferenciaRecebida);
-              });
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Transferência realizada com sucesso!'),
-                ),
-              );
-            }
+            Future.delayed(Duration(milliseconds: 500), () {
+              debugPrint('chegou no then do future');
+              debugPrint('$transferenciaRecebida');
+              if (transferenciaRecebida != null) {
+                setState(() {
+                  widget._transferencias.add(transferenciaRecebida);
+                });
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Transferência realizada com sucesso!'),
+                  ),
+                );
+              }
+            });
           });
         },
       ),
